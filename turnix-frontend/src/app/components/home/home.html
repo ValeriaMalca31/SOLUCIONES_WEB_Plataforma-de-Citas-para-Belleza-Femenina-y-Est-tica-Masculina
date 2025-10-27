@@ -1,0 +1,86 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="brand-name">TURNIX</h1>
+      <p class="tagline">ENCUENTRA TU ESTILO PERFECTO</p>
+      
+      <div class="search-bar">
+        <input 
+          type="text" 
+          placeholder="Buscar barberías, salones de uñas..." 
+          [(ngModel)]="terminoBusqueda"
+          (keyup.enter)="buscarNegocios()">
+        <button (click)="buscarNegocios()">
+          <span class="search-icon">🔍</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categorías -->
+  <section class="categories-section">
+    <h2>ELIGE TU ESTILO</h2>
+    <div class="categories">
+      <button 
+        *ngFor="let cat of categorias" 
+        class="category-btn" 
+        [class.active]="cat === categoriaActiva"
+        (click)="filtrarPorCategoria(cat)">
+        {{ cat }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Negocios Destacados -->
+  <section class="business-section">
+    <div class="section-header">
+      <h2>NEGOCIOS DESTACADOS</h2>
+      <p>Descubre los mejores lugares para tu próximo estilo</p>
+    </div>
+
+    <div class="business-grid">
+      <div class="business-card" *ngFor="let negocio of negociosFiltrados">
+        <div class="card-image">
+          <img [src]="negocio.imagenUrl" [alt]="negocio.nombre">
+          <div class="rating">
+            ⭐ {{ negocio.calificacion }}
+          </div>
+        </div>
+        
+        <div class="card-content">
+          <h3>{{ negocio.nombre }}</h3>
+          <p class="address">{{ negocio.direccion }}</p>
+          <div class="card-footer">
+            <span class="price">Desde ${{ negocio.precioMinimo }}</span>
+            <button class="book-btn" (click)="verDetalle(negocio.id)">
+              RESERVAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo Funciona -->
+  <section class="how-it-works">
+    <h2>CÓMO FUNCIONA TURNIX</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Busca</h3>
+        <p>Encuentra la barbería o salón perfecto cerca de ti</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Reserva</h3>
+        <p>Agenda tu cita en segundos</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Disfruta</h3>
+        <p>Ve y luce tu nuevo estilo</p>
+      </div>
+    </div>
+  </section>
+</div>
