@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../../services/api';
 
 @Component({
   selector: 'app-home',
@@ -12,19 +11,22 @@ import { ApiService } from '../../services/api';
   imports: [CommonModule, FormsModule]
 })
 export class Home implements OnInit {
+  @ViewChild('businessSection') businessSection!: ElementRef;
+  
   negocios: any[] = [];
+  negociosFiltrados: any[] = [];
   categorias = ['BARBERÍA', 'UÑAS', 'MIXTO'];
   categoriaActiva = 'BARBERÍA';
   terminoBusqueda = '';
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.cargarNegocios();
   }
 
   cargarNegocios() {
-    // Datos de ejemplo - luego reemplazar con API real
+    // SOLO 4 NEGOCIOS ORIGINALES
     this.negocios = [
       {
         id: 1,
@@ -63,29 +65,70 @@ export class Home implements OnInit {
         calificacion: 4.6
       }
     ];
+    
+    this.negociosFiltrados = this.negocios.filter(negocio => 
+      negocio.tipo === this.categoriaActiva
+    );
   }
 
   filtrarPorCategoria(categoria: string) {
     this.categoriaActiva = categoria;
-    console.log('Filtrando por:', categoria);
-  }
-
-  verDetalle(id: number) {
-    this.router.navigate(['/negocio', id]);
+    this.filtrarNegocios();
   }
 
   buscarNegocios() {
-    if (this.terminoBusqueda.trim()) {
-      console.log('Buscando:', this.terminoBusqueda);
-      // Aquí iría la lógica de búsqueda real
-    }
+    this.filtrarNegocios();
+    this.desplazarAResultados();
   }
 
-  get negociosFiltrados() {
-    if (this.categoriaActiva === 'TODOS') {
-      return this.negocios;
+  filtrarNegocios() {
+    let resultados = this.negocios;
+
+    // Filtrar por categoría
+    if (this.categoriaActiva !== 'TODOS') {
+      resultados = resultados.filter(negocio => 
+        negocio.tipo === this.categoriaActiva
+      );
     }
-    return this.negocios.filter(negocio => 
+
+    // Filtrar SOLO por nombre (no dirección, no descripción)
+    if (this.terminoBusqueda.trim()) {
+      const termino = this.terminoBusqueda.toLowerCase().trim();
+      resultados = resultados.filter(negocio =>
+        negocio.nombre.toLowerCase().includes(termino)
+      );
+    }
+
+    this.negociosFiltrados = resultados;
+  }
+
+  desplazarAResultados() {
+    setTimeout(() => {
+      if (this.businessSection) {
+        const element = this.businessSection.nativeElement;
+        const yOffset = -80;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  }
+
+  verDetalle(negocio: any) {
+    this.router.navigate(['/negocio', negocio.id]);
+  }
+
+  cargarImagenDefault(event: any) {
+    event.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZW4gbm8gZGlzcG9uaWJsZTwvdGV4dD48L3N2Zz4=';
+  }
+
+    limpiarBusqueda() {
+    this.terminoBusqueda = '';
+    // 🔹 CAMBIO: Al limpiar, vuelve a mostrar solo la categoría activa
+    this.negociosFiltrados = this.negocios.filter(negocio => 
       negocio.tipo === this.categoriaActiva
     );
   }

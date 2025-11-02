@@ -15,7 +15,7 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/negocios`);
   }
 
-  getNegocioById(id: number): Observable<any> {
+  getNegocioById(id: any): Observable<any> {
     return this.http.get(`${this.baseUrl}/negocios/${id}`);
   }
 
@@ -29,7 +29,12 @@ export class ApiService {
   }
 
   // Métodos para servicios
-  getServiciosByNegocio(id: number): Observable<any> {
+  getServiciosByNegocio(id: any): Observable<any> {
     return this.http.get(`${this.baseUrl}/negocios/${id}/servicios`);
+  }
+
+  // Métodos para horarios disponibles
+  getHorariosDisponibles(negocioId: any, fecha: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/negocios/${negocioId}/horarios?fecha=${fecha}`);
   }
 }
