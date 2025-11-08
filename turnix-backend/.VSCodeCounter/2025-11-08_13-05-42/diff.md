@@ -1,0 +1,29 @@
+# Diff Summary
+
+Date : 2025-11-08 13:05:42
+
+Directory c:\\Users\\GRLL\\Documents\\CICLO VIII\\SOLUCIONES WEB Y APLI. DIST. - 8104\\PROYECTO FINAL\\turnix-backend\\src
+
+Total : 3 files,  73 codes, 0 comments, 23 blanks, all 96 lines
+
+[Summary](results.md) / [Details](details.md) / Diff Summary / [Diff Details](diff-details.md)
+
+## Languages
+| language | files | code | comment | blank | total |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Java | 3 | 73 | 0 | 23 | 96 |
+
+## Directories
+| path | files | code | comment | blank | total |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| . | 3 | 73 | 0 | 23 | 96 |
+| test | 3 | 73 | 0 | 23 | 96 |
+| test\\java | 3 | 73 | 0 | 23 | 96 |
+| test\\java\\com | 3 | 73 | 0 | 23 | 96 |
+| test\\java\\com\\turnix | 3 | 73 | 0 | 23 | 96 |
+| test\\java\\com\\turnix\\turnix_backend | 3 | 73 | 0 | 23 | 96 |
+| test\\java\\com\\turnix\\turnix_backend (Files) | 1 | 9 | 0 | 5 | 14 |
+| test\\java\\com\\turnix\\turnix_backend\\controller | 1 | 43 | 0 | 11 | 54 |
+| test\\java\\com\\turnix\\turnix_backend\\service | 1 | 21 | 0 | 7 | 28 |
+
+[Summary](results.md) / [Details](details.md) / Diff Summary / [Diff Details](diff-details.md)
