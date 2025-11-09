@@ -1,0 +1,124 @@
+/* Contenedor principal para centrar el contenido y dar márgenes */
+.profile-container {
+  max-width: 900px;
+  margin: 2rem auto; /* 2rem de espacio arriba/abajo, centrado automático a los lados */
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+}
+
+/* --- SECCIÓN PORTADA --- */
+.portada-container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.portada-container img {
+  width: 100%;
+  height: 300px; /* Altura fija para la portada */
+  object-fit: cover; /* Hace que la imagen cubra el espacio sin deformarse */
+  border-radius: 10px;
+  background-color: #f0f0f0; /* Color mientras carga */
+}
+
+/* --- SECCIÓN INFO --- */
+.info-container {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-container h1 {
+  font-size: 2.5rem; /* 40px */
+  font-weight: bold;
+  color: #1a1a1a;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.info-item {
+  font-size: 1.1rem; /* 18px */
+  color: #555;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Botón de Reservar (Como en el wireframe) */
+.reservar-btn {
+  background-color: #1a1a1a; /* Color oscuro */
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.8rem 1.5rem; /* 12px arriba/abajo, 24px lados */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.reservar-btn:hover {
+  background-color: #333333;
+  transform: scale(1.02); /* Pequeño efecto al pasar el mouse */
+}
+
+/* --- SECCIÓN ACERCA DE --- */
+.about-container {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-container h2,
+.galeria-container h2 {
+  font-size: 1.8rem; /* 28px */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.about-container p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6; /* Espacio entre líneas */
+}
+
+/* --- SECCIÓN GALERÍA --- */
+.galeria-container {
+  margin-top: 1.5rem;
+}
+
+.galeria-grid {
+  display: grid;
+  /* Crea 3 columnas de tamaño igual */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 1rem; /* Espacio entre las fotos */
+}
+
+.foto-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+}
+
+/* --- Adaptación para celulares --- */
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .info-container h1 {
+    font-size: 2rem; /* Más pequeño en móvil */
+  }
+
+  .galeria-grid {
+    /* En móvil, muestra 2 columnas en lugar de 3 */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
