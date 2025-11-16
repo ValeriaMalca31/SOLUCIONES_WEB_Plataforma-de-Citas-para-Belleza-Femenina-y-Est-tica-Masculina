@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common'; 
-import { FormsModule } from '@angular/forms'; // Para [(ngModel)]
-import { ActivatedRoute, Router } from '@angular/router'; // <-- ¡Importamos Router!
+import { FormsModule } from '@angular/forms'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { ServicioService } from '../../services/servicio.service';
 import { ProfesionalService } from '../../services/profesional.service';
 import { DisponibilidadService } from '../../services/disponibilidad.service';
@@ -32,7 +32,7 @@ export class Booking implements OnInit {
   fechaSeleccionada: string = '';
   horaSeleccionada: string | null = null;
 
-  // ¡NUEVO! Datos del formulario del Paso 3
+  // Datos del formulario del Paso 3
   clienteNombre: string = '';
   clienteEmail: string = '';
   clienteTelefono: string = '';
@@ -111,12 +111,12 @@ export class Booking implements OnInit {
     this.horaSeleccionada = hora;
   }
 
-  // ¡ACTUALIZADO! Esta función ahora avanza al Paso 3
+  //Esta función ahora avanza al Paso 3
   continuarReserva(): void {
     this.currentStep = 3; // Avanza al Paso 3 (Confirmar Reserva)
   }
 
-  // ¡NUEVA FUNCIÓN! Se llama al hacer clic en "Confirmar Cita" en el Paso 3
+  // Se llama al hacer clic en "Confirmar Cita" en el Paso 3
   finalizarReserva(): void {
     if (!this.validarFormulario()) {
       this.errorAlGuardar = 'Por favor, complete todos los campos obligatorios.';
@@ -169,7 +169,7 @@ export class Booking implements OnInit {
     });
   }
 
-  // ¡NUEVA FUNCIÓN! Validación simple
+  // Validación simple
   validarFormulario(): boolean {
     if (!this.clienteNombre || !this.clienteEmail || !this.clienteTelefono) {
       return false;
@@ -177,7 +177,7 @@ export class Booking implements OnInit {
     return true;
   }
 
-  // ¡NUEVA FUNCIÓN! Para el botón de "Volver al inicio" en el Paso 4
+  //  Para el botón de "Volver al inicio" en el Paso 4
   volverAlInicio(): void {
     this.router.navigate(['/']); // Navega a la página principal
   }

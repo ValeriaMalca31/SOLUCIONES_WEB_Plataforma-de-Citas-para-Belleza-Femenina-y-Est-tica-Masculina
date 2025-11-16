@@ -21,14 +21,9 @@
 
   <!-- 
     Sección de Información Principal 
-    Basado en el Wireframe (PDF Pág. 16)
   -->
   <div class="info-container">
     
-    <!-- 
-      ¡ARREGLADO!
-      Usamos 'nombreNegocio', que es el nombre correcto de tu JSON.
-    -->
     <h1>{{ negocio.nombreNegocio }}</h1>
     
     <!-- Mostramos el resto de la información -->
@@ -66,7 +61,6 @@
       <!-- 
         ¡AQUÍ ES DONDE USAMOS NgFor!
         Esto "repetirá" este bloque por CADA foto en la variable 'galeria'.
-        Cuando guardes esto, la advertencia verde desaparecerá.
       -->
       <div *ngFor="let foto of galeria" class="foto-card">
         <img [src]="foto.urlImagen" [alt]="foto.descripcion">

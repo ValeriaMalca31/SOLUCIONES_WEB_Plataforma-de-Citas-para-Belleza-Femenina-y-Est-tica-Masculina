@@ -111,14 +111,14 @@
     <button 
       class="continuar-btn" 
       (click)="continuarReserva()"
-      [disabled]="!horaSeleccionada"> <!-- Deshabilitado si no hay hora -->
+      [disabled]="!horaSeleccionada"> 
       Continuar
     </button>
   </div>
 
 
   <!-- ============================================= -->
-  <!-- == ¡NUEVO! PASO 3: CONFIRMAR RESERVA == -->
+  <!-- == PASO 3: CONFIRMAR RESERVA == -->
   <!-- ============================================= -->
   <div *ngIf="currentStep === 3" class="paso-container">
     <div class="paso-header">
@@ -175,7 +175,7 @@
   </div>
 
   <!-- ============================================= -->
-  <!-- == ¡NUEVO! PASO 4: ÉXITO == -->
+  <!--    PASO 4: ÉXITO == -->
   <!-- ============================================= -->
   <div *ngIf="currentStep === 4" class="paso-container">
     <div class="exito-box">

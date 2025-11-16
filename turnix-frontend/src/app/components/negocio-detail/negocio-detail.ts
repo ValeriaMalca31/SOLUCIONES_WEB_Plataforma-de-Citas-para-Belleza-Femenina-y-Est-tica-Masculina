@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NegocioService } from '../../services/negocio.service';
-import { forkJoin } from 'rxjs'; // Importamos forkJoin
-import { NgIf, NgFor, CommonModule } from '@angular/common'; // Importamos todo lo necesario
+import { forkJoin } from 'rxjs'; 
+import { NgIf, NgFor, CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-negocio-detail',
@@ -43,8 +43,8 @@ export class NegocioDetail implements OnInit {
   }
 
   /**
-   * ¡ESTA FUNCIÓN ESTÁ CORREGIDA!
-   * Ahora te llevará a la ruta /booking/ID
+  
+   * Te llevará a la ruta /booking/ID
    * (ej. /booking/1)
    */
   irAReservar() {

@@ -24,7 +24,6 @@ export class NegocioService {
   }
 
   /**
-   * ¡ESTA ES LA FUNCIÓN QUE FALTABA!
    * Obtiene las fotos de la galería de UN SOLO negocio.
    * Llama a: GET http://localhost:3000/galeriasNegocio?negocioId=1
    */

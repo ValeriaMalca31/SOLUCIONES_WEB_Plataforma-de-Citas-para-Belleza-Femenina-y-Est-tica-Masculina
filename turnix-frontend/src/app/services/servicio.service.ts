@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ServicioService {
 
-  // Apuntamos a nuestro backend falso en localhost:3000
+  // Apuntamos a nuestro backend en localhost:3000
   private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) { }
