@@ -5,7 +5,12 @@
     </div>
     <div class="nav-links">
       <a routerLink="/" routerLinkActive="active">Inicio</a>
-      <a routerLink="/login">Ingresar</a>
+      <a *ngIf="!isAuthenticated()" routerLink="/login">Ingresar</a>
+      <a *ngIf="!isAuthenticated()" routerLink="/registro">Registrarse</a>
+      <a *ngIf="isAuthenticated()" (click)="logout()" class="logout-link">Cerrar Sesión</a>
+      <span *ngIf="isAuthenticated()" class="user-info">
+        Hola, {{currentUser?.nombre}}
+      </span>
     </div>
   </nav>
 </header>
