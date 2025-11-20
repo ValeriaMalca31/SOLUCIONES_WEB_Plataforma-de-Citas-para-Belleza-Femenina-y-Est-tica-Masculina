@@ -23,9 +23,9 @@ public class DisponibilidadSemanal {
     @Column(name = "Dia_Semana", nullable = false)
     private Integer diaSemana;
 
-    @Column(name = "Hora_Inicio", nullable = false)
+    @Column(name = "Hora_Inicio", nullable = false, columnDefinition = "time(0)")
     private LocalTime horaInicio;
 
-    @Column(name = "Hora_Fin", nullable = false)
+    @Column(name = "Hora_Fin", nullable = false, columnDefinition = "time(0)")
     private LocalTime horaFin;
 }
