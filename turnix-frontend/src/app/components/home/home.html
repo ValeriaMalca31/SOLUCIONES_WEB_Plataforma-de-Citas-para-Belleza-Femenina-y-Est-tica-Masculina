@@ -1,113 +1,202 @@
 <div class="home-container">
-  <!-- Hero Section -->
+  <!-- Hero Section Mejorado -->
   <section class="hero-section">
-    <div class="overlay"></div>
+    <div class="hero-overlay"></div>
 
     <div class="hero-content">
-      <h1 class="brand-name">TURNIX</h1>
-      <p class="tagline">ENCUENTRA TU ESTILO PERFECTO</p>
+      <div class="logo-container">
+        <h1 class="brand-logo">TURNIX</h1>
+        <div class="brand-underline"></div>
+      </div>
 
-      <div class="search-bar">
-        <input 
-          type="text" 
-          placeholder="Buscar por nombre..." 
-          [(ngModel)]="terminoBusqueda"
-          (keyup.enter)="buscarNegocios()">
-        <button (click)="buscarNegocios()">
+      <p class="hero-tagline">Encuentra tu estilo perfecto</p>
+
+      <!-- Barra de búsqueda mejorada -->
+      <div class="search-container">
+        <div class="search-box">
           <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Buscar por nombre de negocio..." [(ngModel)]="terminoBusqueda"
+            (keyup.enter)="buscarNegocios()" class="search-input">
+          <button class="search-button" (click)="buscarNegocios()">
+            Buscar
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs de Categorías Mejoradas -->
+  <section class="categories-wrapper">
+    <div class="categories-container">
+      <div class="category-tabs">
+        <button *ngFor="let cat of categorias" class="tab-button" [class.active]="cat === categoriaActiva"
+          (click)="filtrarPorCategoria(cat)">
+          {{ cat }}
         </button>
       </div>
-    </div>
-  </section>
 
-  <!-- Categorías -->
-  <section class="categories-section">
-    <h2>ELIGE TU ESTILO</h2>
-    <div class="categories">
-      <button 
-        *ngFor="let cat of categorias" 
-        class="category-btn" 
-        [class.active]="cat === categoriaActiva"
-        (click)="filtrarPorCategoria(cat)">
-        {{ cat }}
-      </button>
-      <button 
-        class="category-btn clear-btn"
-        (click)="limpiarBusqueda()"
-        *ngIf="terminoBusqueda">
-        ✕ Limpiar
+      <button *ngIf="terminoBusqueda" class="clear-search-btn" (click)="limpiarBusqueda()">
+        <span class="close-icon">✕</span> Limpiar búsqueda
       </button>
     </div>
   </section>
 
-  <!-- Negocios Destacados -->
-  <section class="business-section" #businessSection>
-    <div class="section-header">
-      <h2>NEGOCIOS DESTACADOS</h2>
-      <p>Descubre los mejores lugares para tu próximo estilo</p>
-      
-      <!-- Mostrar info de búsqueda -->
-      <div class="search-info" *ngIf="terminoBusqueda">
-        <p class="search-results">
-          {{negociosFiltrados.length}} resultado(s) para "{{terminoBusqueda}}"
-        </p>
-      </div>
+  <!-- Sección de Negocios Mejorada -->
+  <section class="negocios-section" #businessSection>
+
+    <!-- Información de búsqueda -->
+    <div class="search-results-info" *ngIf="terminoBusqueda">
+      <p class="results-text">
+        <strong>{{negociosFiltrados.length}}</strong> resultado(s) para
+        <span class="search-term">"{{terminoBusqueda}}"</span>
+      </p>
     </div>
 
-    <!-- Mensaje si no hay resultados -->
-    <div class="no-results" *ngIf="negociosFiltrados.length === 0 && terminoBusqueda">
-      <h3>😔 No encontramos resultados para "{{terminoBusqueda}}"</h3>
-      <p>Intenta con otros términos de búsqueda</p>
+    <!-- Mensaje cuando no hay resultados -->
+    <div class="empty-state" *ngIf="negociosFiltrados.length === 0 && terminoBusqueda">
+      <div class="empty-icon">🔍</div>
+      <h3>No encontramos resultados</h3>
+      <p>No hay negocios que coincidan con "{{terminoBusqueda}}"</p>
+      <button class="btn-secondary" (click)="limpiarBusqueda()">
+        Ver todos los negocios
+      </button>
     </div>
 
-    <!-- Grid de negocios -->
-    <div class="business-grid" *ngIf="negociosFiltrados.length > 0">
-      <div class="business-card" *ngFor="let negocio of negociosFiltrados">
-        <div class="card-image">
-          <img [src]="negocio.imagenUrl" [alt]="negocio.nombre" (error)="cargarImagenDefault($event)">
-          <div class="rating">
-            ⭐ {{ negocio.calificacion }}
+    <!-- Mensaje cuando no hay negocios en la categoría -->
+    <div class="empty-state" *ngIf="negociosFiltrados.length === 0 && !terminoBusqueda">
+      <div class="empty-icon">📋</div>
+      <h3>No hay negocios disponibles</h3>
+      <p>No hay negocios en la categoría "{{categoriaActiva}}"</p>
+      <p class="empty-hint">Prueba seleccionando otra categoría</p>
+    </div>
+
+    <!-- Grid de Tarjetas de Negocios -->
+    <div class="cards-grid" *ngIf="negociosFiltrados.length > 0">
+      <div class="negocio-card" *ngFor="let negocio of negociosFiltrados" (click)="verDetalle(negocio)">
+
+        <!-- Imagen del negocio -->
+        <div class="card-image-wrapper">
+          <img [src]="negocio.imagenUrl" [alt]="negocio.nombre" class="card-image"
+            (error)="cargarImagenDefault($event)">
+
+          <!-- Badge de calificación -->
+          <div class="rating-badge">
+            <span class="star-icon">⭐</span>
+            <span class="rating-value">{{ negocio.calificacion }}</span>
+            <span class="rating-reviews">({{ negocio.numeroResenas || '0' }} reseñas)</span>
           </div>
+
+          <!-- Badge de tipo -->
+          <div class="type-badge">{{ negocio.tipo }}</div>
         </div>
-        
-        <div class="card-content">
-          <h3>{{ negocio.nombre }}</h3>
-          <p class="address">{{ negocio.direccion }}</p>
+
+        <!-- Contenido de la tarjeta -->
+        <div class="card-body">
+          <h3 class="card-title">{{ negocio.nombre }}</h3>
+
+          <div class="card-info">
+            <div class="info-item">
+              <span class="info-icon">
+                <img src="https://w7.pngwing.com/pngs/924/833/png-transparent-google-maps-2020-icon-hd-logo.png"
+                  class="icon-img" />
+              </span>
+              <span class="info-text">{{ negocio.direccion }}</span>
+            </div>
+          </div>
+
           <div class="card-footer">
-            <span class="price">Desde S/{{ negocio.precioMinimo }}</span>
-            <button class="book-btn" (click)="verDetalle(negocio)">
-              RESERVAR
+            <div class="price-tag">
+              <span class="price-label">Desde</span>
+              <span class="price-value">S/ {{ negocio.precioMinimo }}</span>
+            </div>
+            <button class="btn-reservar" (click)="verDetalle(negocio); $event.stopPropagation()">
+              Reservar ahora
+              <span class="arrow">→</span>
             </button>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- 🔹 NUEVO: Mensaje cuando no hay negocios en la categoría -->
-    <div class="no-results" *ngIf="negociosFiltrados.length === 0 && !terminoBusqueda">
-      <h3>📝 No hay negocios en "{{categoriaActiva}}"</h3>
-      <p>Prueba seleccionando otra categoría</p>
-    </div>
 
-  <!-- Cómo Funciona -->
-  <section class="how-it-works" *ngIf="!terminoBusqueda">
-    <h2>CÓMO FUNCIONA TURNIX</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-number">1</div>
-        <h3>Busca</h3>
-        <p>Encuentra la barbería o salón perfecto cerca de ti</p>
+  <!-- Sección "Cómo Funciona" -->
+  <section class="how-works-section" *ngIf="!terminoBusqueda">
+    <div class="how-works-content">
+      <div class="section-title">
+        <h2>¿Cómo funciona Turnix?</h2>
+        <p>Reserva tu cita en 3 simples pasos</p>
       </div>
-      <div class="step">
-        <div class="step-number">2</div>
-        <h3>Reserva</h3>
-        <p>Agenda tu cita en segundos</p>
-      </div>
-      <div class="step">
-        <div class="step-number">3</div>
-        <h3>Disfruta</h3>
-        <p>Ve y luce tu nuevo estilo</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon">
+            <span class="icon-emoji">🔍</span>
+            <div class="step-number">01</div>
+          </div>
+          <h3 class="step-title">Busca</h3>
+          <p class="step-description">
+            Encuentra la barbería o salón perfecto cerca de ti usando nuestros filtros
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-icon">
+            <span class="icon-emoji">📅</span>
+            <div class="step-number">02</div>
+          </div>
+          <h3 class="step-title">Reserva</h3>
+          <p class="step-description">
+            Selecciona el servicio, profesional y horario que más te convenga
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-icon">
+            <span class="icon-emoji">✨</span>
+            <div class="step-number">03</div>
+          </div>
+          <h3 class="step-title">Disfruta</h3>
+          <p class="step-description">
+            Ve a tu cita y luce tu nuevo estilo con confianza
+          </p>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- Footer - SIEMPRE VISIBLE -->
+  <footer class="home-footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="footer-section">
+          <h3 class="footer-title">TURNIX</h3>
+          <p class="footer-description">
+            La plataforma líder para reservas en barberías y salones de belleza.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-heading">Enlaces</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Inicio</a></li>
+            <li><a href="#" class="footer-link">Negocios</a></li>
+            <li><a href="#" class="footer-link">Cómo funciona</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-heading">Contacto</h4>
+          <ul class="footer-links">
+            <li class="footer-info">📧 info@turnix.com</li>
+            <li class="footer-info">📱 +51 999 888 777</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Turnix. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
 </div>

@@ -31,6 +31,6 @@ public class Resena {
     @Column(name = "Comentario")
     private String comentario;
 
-    @Column(name = "Fecha_Creacion", nullable = false)
+    @Column(name = "Fecha_Creacion", nullable = false, columnDefinition = "datetime2(0)")
     private LocalDateTime fechaCreacion = LocalDateTime.now();
 }

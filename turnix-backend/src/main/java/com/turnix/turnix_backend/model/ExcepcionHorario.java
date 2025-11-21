@@ -25,10 +25,10 @@ public class ExcepcionHorario {
     @Column(name = "Fecha_Especifica", nullable = false)
     private LocalDate fechaEspecifica;
 
-    @Column(name = "Hora_Inicio")
+    @Column(name = "Hora_Inicio", columnDefinition = "time(0)")
     private LocalTime horaInicio;
 
-    @Column(name = "Hora_Fin")
+    @Column(name = "Hora_Fin", columnDefinition = "time(0)")
     private LocalTime horaFin;
 
     @Column(name = "Tipo", nullable = false, length = 20)
