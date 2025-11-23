@@ -6,11 +6,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CitaService {
+<<<<<<< HEAD
   private apiUrl = 'http://localhost:8080/api';
+=======
+  
+  // Apuntamos a nuestro backend falso en localhost:3000
+  private apiUrl = 'http://localhost:3000';
+>>>>>>> origin/abrhyl
 
   constructor(private http: HttpClient) { }
 
   /**
+<<<<<<< HEAD
    * Crea una nueva cita
    */
   crearCita(citaData: any): Observable<any> {
@@ -29,5 +36,13 @@ export class CitaService {
    */
   cancelarCita(citaId: number): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/citas/${citaId}/cancelar`, {});
+=======
+   * Crea una nueva cita en la base de datos
+   * Llama a: POST http://localhost:3000/citas
+   * @param datosCita Un objeto con la información de la nueva cita
+   */
+  crearCita(datosCita: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/citas`, datosCita);
+>>>>>>> origin/abrhyl
   }
 }

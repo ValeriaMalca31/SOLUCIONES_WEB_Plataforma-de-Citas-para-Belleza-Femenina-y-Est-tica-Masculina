@@ -1,0 +1,75 @@
+<<<<<<< HEAD
+=======
+<!-- 
+  Usamos *ngIf="negocio"
+  Esto es un "seguro": El HTML no se mostrará HASTA que la variable 'negocio' 
+  tenga datos (después de que la API responda). 
+  Esto evita errores de "undefined".
+-->
+<div *ngIf="negocio" class="profile-container">
+
+  <!-- 
+    Sección de Portada 
+    Usamos la primera foto de la galería como portada.
+  -->
+  <div class="portada-container" *ngIf="galeria.length > 0">
+    <img [src]="galeria[0].urlImagen" [alt]="galeria[0].descripcion">
+  </div>
+  <div class="portada-container" *ngIf="galeria.length === 0">
+    <!-- Mostrar una imagen de reemplazo si no hay galería -->
+    <img src="https://placehold.co/1200x400/333333/FFF?text=Negocio" alt="Sin imagen de portada">
+  </div>
+
+
+  <!-- 
+    Sección de Información Principal 
+  -->
+  <div class="info-container">
+    
+    <h1>{{ negocio.nombreNegocio }}</h1>
+    
+    <!-- Mostramos el resto de la información -->
+    <p class="info-item">
+      📍 {{ negocio.direccion }}
+    </p>
+    <p class="info-item">
+      📞 {{ negocio.telefonoNegocio }}
+    </p>
+    <p class="info-item">
+      🕒 {{ negocio.horarioApertura }} - {{ negocio.horarioCierre }}
+    </p>
+
+    <!-- Botón de Reservar -->
+    <button (click)="irAReservar()" class="reservar-btn">Reservar Cita</button>
+  </div>
+
+  <!-- 
+    Sección "Acerca del Negocio"
+    Basado en el Wireframe (PDF Pág. 16)
+  -->
+  <div class="about-container">
+    <h2>Acerca del Negocio</h2>
+    <p>{{ negocio.descripcion }}</p>
+  </div>
+
+  <!-- 
+    Sección "Galería de Fotos"
+    Basado en el Wireframe (PDF Pág. 16)
+  -->
+  <div class="galeria-container" *ngIf="galeria.length > 0">
+    <h2>Galería de Fotos</h2>
+    <div class="galeria-grid">
+      
+      <!-- 
+        ¡AQUÍ ES DONDE USAMOS NgFor!
+        Esto "repetirá" este bloque por CADA foto en la variable 'galeria'.
+      -->
+      <div *ngFor="let foto of galeria" class="foto-card">
+        <img [src]="foto.urlImagen" [alt]="foto.descripcion">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+>>>>>>> origin/abrhyl
