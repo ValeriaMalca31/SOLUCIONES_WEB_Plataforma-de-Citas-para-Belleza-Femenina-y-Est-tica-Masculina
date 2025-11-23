@@ -34,10 +34,10 @@ public class Cita {
     @JoinColumn(name = "ID_Servicio", nullable = false)
     private Servicio servicio;
 
-    @Column(name = "Fecha_Hora_Inicio", nullable = false)
+    @Column(name = "Fecha_Hora_Inicio", nullable = false, columnDefinition = "datetime2(0)")
     private LocalDateTime fechaHoraInicio;
 
-    @Column(name = "Fecha_Hora_Fin", nullable = false)
+    @Column(name = "Fecha_Hora_Fin", nullable = false, columnDefinition = "datetime2(0)")
     private LocalDateTime fechaHoraFin;
 
     @Column(name = "Estado", nullable = false, length = 20)

@@ -1,16 +1,14 @@
 <div class="home-container">
   <!-- Hero Section -->
   <section class="hero-section">
-    <div class="overlay"></div>
-
     <div class="hero-content">
       <h1 class="brand-name">TURNIX</h1>
       <p class="tagline">ENCUENTRA TU ESTILO PERFECTO</p>
-
+      
       <div class="search-bar">
         <input 
           type="text" 
-          placeholder="Buscar por nombre..." 
+          placeholder="Buscar barberías, salones de uñas..." 
           [(ngModel)]="terminoBusqueda"
           (keyup.enter)="buscarNegocios()">
         <button (click)="buscarNegocios()">
@@ -31,40 +29,20 @@
         (click)="filtrarPorCategoria(cat)">
         {{ cat }}
       </button>
-      <button 
-        class="category-btn clear-btn"
-        (click)="limpiarBusqueda()"
-        *ngIf="terminoBusqueda">
-        ✕ Limpiar
-      </button>
     </div>
   </section>
 
   <!-- Negocios Destacados -->
-  <section class="business-section" #businessSection>
+  <section class="business-section">
     <div class="section-header">
       <h2>NEGOCIOS DESTACADOS</h2>
       <p>Descubre los mejores lugares para tu próximo estilo</p>
-      
-      <!-- Mostrar info de búsqueda -->
-      <div class="search-info" *ngIf="terminoBusqueda">
-        <p class="search-results">
-          {{negociosFiltrados.length}} resultado(s) para "{{terminoBusqueda}}"
-        </p>
-      </div>
     </div>
 
-    <!-- Mensaje si no hay resultados -->
-    <div class="no-results" *ngIf="negociosFiltrados.length === 0 && terminoBusqueda">
-      <h3>😔 No encontramos resultados para "{{terminoBusqueda}}"</h3>
-      <p>Intenta con otros términos de búsqueda</p>
-    </div>
-
-    <!-- Grid de negocios -->
-    <div class="business-grid" *ngIf="negociosFiltrados.length > 0">
+    <div class="business-grid">
       <div class="business-card" *ngFor="let negocio of negociosFiltrados">
         <div class="card-image">
-          <img [src]="negocio.imagenUrl" [alt]="negocio.nombre" (error)="cargarImagenDefault($event)">
+          <img [src]="negocio.imagenUrl" [alt]="negocio.nombre">
           <div class="rating">
             ⭐ {{ negocio.calificacion }}
           </div>
@@ -74,8 +52,8 @@
           <h3>{{ negocio.nombre }}</h3>
           <p class="address">{{ negocio.direccion }}</p>
           <div class="card-footer">
-            <span class="price">Desde S/{{ negocio.precioMinimo }}</span>
-            <button class="book-btn" (click)="verDetalle(negocio)">
+            <span class="price">Desde ${{ negocio.precioMinimo }}</span>
+            <button class="book-btn" (click)="verDetalle(negocio.id)">
               RESERVAR
             </button>
           </div>
@@ -83,14 +61,9 @@
       </div>
     </div>
   </section>
-  <!-- 🔹 NUEVO: Mensaje cuando no hay negocios en la categoría -->
-    <div class="no-results" *ngIf="negociosFiltrados.length === 0 && !terminoBusqueda">
-      <h3>📝 No hay negocios en "{{categoriaActiva}}"</h3>
-      <p>Prueba seleccionando otra categoría</p>
-    </div>
 
   <!-- Cómo Funciona -->
-  <section class="how-it-works" *ngIf="!terminoBusqueda">
+  <section class="how-it-works">
     <h2>CÓMO FUNCIONA TURNIX</h2>
     <div class="steps">
       <div class="step">

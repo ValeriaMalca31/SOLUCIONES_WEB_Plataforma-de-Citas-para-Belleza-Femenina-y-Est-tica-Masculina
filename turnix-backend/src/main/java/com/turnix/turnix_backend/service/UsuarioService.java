@@ -28,41 +28,52 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> getUsuarioById(Long id) { // 🔹 CORREGIDO: Long
+    public Optional<Usuario> getUsuarioById(Long id) {
         return usuarioRepository.findById(id);
     }
 
-    public Usuario save(Usuario usuario) {
+    public Usuario createUsuario(Usuario usuario) {
         try {
-            // Generar el hash de la contraseña si se proporciona
-            if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
-                usuario.setPasswordHash(passwordEncoder.encode(usuario.getPassword()));
-            }
+            // Normalizar y validar rol antes de persistir
+            String normalizedRole = normalizeRole(usuario.getRol());
+            usuario.setRol(normalizedRole);
+
+            // Generar el hash de la contraseña
+            usuario.setPasswordHash(passwordEncoder.encode(usuario.getPassword()));
             return usuarioRepository.save(usuario);
         } catch (DataIntegrityViolationException e) {
             throw new IllegalArgumentException("Error al crear el usuario: " + e.getMessage());
         }
     }
 
-    public Usuario createUsuario(Usuario usuario) {
-        return save(usuario);
+    private String normalizeRole(String rol) {
+        if (rol == null) {
+            throw new IllegalArgumentException("El rol es obligatorio");
+        }
+        String r = rol.trim().toLowerCase();
+        // Mapear sinónimos y variantes al conjunto permitido por la BD
+        switch (r) {
+            case "user":
+            case "usuario":
+            case "cliente":
+            case "client":
+                return "USER";
+            case "admin":
+            case "administrador":
+            case "dueño":
+            case "dueno":
+            case "owner":
+                return "ADMIN";
+            default:
+                throw new IllegalArgumentException("Rol inválido: '" + rol + "'. Valores permitidos (alias): USER, ADMIN, Cliente, Administrador, Dueño.");
+        }
     }
 
-    public void deleteUsuario(Long id) { // 🔹 CORREGIDO: Long
+    public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
 
-    public Usuario findByEmail(String email) {
-        return usuarioRepository.findByEmail(email);
-    }
-
-    public boolean existsByEmail(String email) {
-        return usuarioRepository.existsByEmail(email);
-    }
-
-    // 🔹 NUEVO MÉTODO para compatibilidad
     public Optional<Usuario> getUsuarioByEmail(String email) {
-        Usuario usuario = usuarioRepository.findByEmail(email);
-        return Optional.ofNullable(usuario);
+        return Optional.ofNullable(usuarioRepository.findByEmail(email));
     }
 }

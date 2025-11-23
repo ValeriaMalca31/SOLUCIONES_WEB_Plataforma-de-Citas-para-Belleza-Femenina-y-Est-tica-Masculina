@@ -16,7 +16,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Usuario")
-    private Long id; // 🔹 CAMBIAR de Integer a Long
+    private Integer id;
 
     @NotBlank
     @Size(max = 100)

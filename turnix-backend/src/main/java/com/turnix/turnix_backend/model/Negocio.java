@@ -32,9 +32,9 @@ public class Negocio {
     @Column(name = "Descripcion")
     private String descripcion;
 
-    @Column(name = "Horario_Apertura")
+    @Column(name = "Horario_Apertura", columnDefinition = "time(0)")
     private LocalTime horarioApertura;
 
-    @Column(name = "Horario_Cierre")
+    @Column(name = "Horario_Cierre", columnDefinition = "time(0)")
     private LocalTime horarioCierre;
 }
