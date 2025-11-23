@@ -1,86 +1,75 @@
-<div class="negocio-detail-container">
-  <!-- Botón de retroceso -->
-  <header class="detail-header">
-    <button class="back-button" (click)="volver()">
-      <span class="back-icon">←</span> Volver
-    </button>
-  </header>
+<<<<<<< HEAD
+=======
+<!-- 
+  Usamos *ngIf="negocio"
+  Esto es un "seguro": El HTML no se mostrará HASTA que la variable 'negocio' 
+  tenga datos (después de que la API responda). 
+  Esto evita errores de "undefined".
+-->
+<div *ngIf="negocio" class="profile-container">
 
-  <!-- Imagen de portada -->
-  <div class="cover-image">
-    <img [src]="negocio?.imagenPortada" [alt]="negocio?.nombre" class="cover-img" (error)="cargarImagenDefault($event)">
+  <!-- 
+    Sección de Portada 
+    Usamos la primera foto de la galería como portada.
+  -->
+  <div class="portada-container" *ngIf="galeria.length > 0">
+    <img [src]="galeria[0].urlImagen" [alt]="galeria[0].descripcion">
+  </div>
+  <div class="portada-container" *ngIf="galeria.length === 0">
+    <!-- Mostrar una imagen de reemplazo si no hay galería -->
+    <img src="https://placehold.co/1200x400/333333/FFF?text=Negocio" alt="Sin imagen de portada">
   </div>
 
-  <!-- Información del negocio -->
-  <section class="negocio-info">
-    <div class="info-header">
-      <h1 class="negocio-nombre">{{ negocio?.nombre }}</h1>
-      <div class="rating-section">
-        <div class="stars">
-          <span *ngFor="let star of [1,2,3,4,5]" 
-                [class.filled]="star <= (negocio?.calificacion || 0)"
-                class="star">★</span>
-        </div>
-        <span class="rating-text">{{ negocio?.calificacion }} ({{ negocio?.resenas }} reseñas)</span>
-      </div>
-    </div>
 
-    <div class="contact-info">
-      <div class="contact-item">
-        <span class="icon">📍</span>
-        <span>{{ negocio?.direccion }}</span>
-      </div>
-      <div class="contact-item">
-        <span class="icon">📞</span>
-        <span>{{ negocio?.telefono }}</span>
-      </div>
-    </div>
+  <!-- 
+    Sección de Información Principal 
+  -->
+  <div class="info-container">
+    
+    <h1>{{ negocio.nombreNegocio }}</h1>
+    
+    <!-- Mostramos el resto de la información -->
+    <p class="info-item">
+      📍 {{ negocio.direccion }}
+    </p>
+    <p class="info-item">
+      📞 {{ negocio.telefonoNegocio }}
+    </p>
+    <p class="info-item">
+      🕒 {{ negocio.horarioApertura }} - {{ negocio.horarioCierre }}
+    </p>
 
-    <div class="horario-info">
-      <div class="contact-item">
-        <span class="icon">🕒</span>
-        <span>{{ negocio?.horario }}</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Acerca del negocio -->
-  <section class="about-section">
-    <h2>ACERCA DEL NEGOCIO</h2>
-    <p class="about-text">{{ negocio?.descripcion }}</p>
-  </section>
-
-  <!-- Galería de fotos -->
-  <section class="gallery-section">
-    <h2>GALERÍA DE FOTOS</h2>
-    <div class="gallery-grid">
-      <div *ngFor="let foto of negocio?.galeria; let i = index" class="gallery-item">
-        <img [src]="foto" [alt]="'Foto ' + (i + 1) + ' de ' + negocio?.nombre" class="gallery-img" (error)="cargarImagenDefault($event)">
-      </div>
-    </div>
-  </section>
-
-  <!-- Servicios destacados -->
-  <section class="services-section">
-    <h2>SERVICIOS DESTACADOS</h2>
-    <div class="services-list">
-      <div *ngFor="let servicio of serviciosDestacados" class="service-card">
-        <div class="service-info">
-          <h3>{{ servicio.nombre }}</h3>
-          <p class="service-desc">{{ servicio.descripcion }}</p>
-          <div class="service-meta">
-            <span class="duration">⏱️ {{ servicio.duracion }}</span>
-            <span class="price">S/ {{ servicio.precio }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Botón de reservar cita -->
-  <div class="action-section">
-    <button class="reservar-btn" (click)="reservarCita()">
-      RESERVAR CITA
-    </button>
+    <!-- Botón de Reservar -->
+    <button (click)="irAReservar()" class="reservar-btn">Reservar Cita</button>
   </div>
+
+  <!-- 
+    Sección "Acerca del Negocio"
+    Basado en el Wireframe (PDF Pág. 16)
+  -->
+  <div class="about-container">
+    <h2>Acerca del Negocio</h2>
+    <p>{{ negocio.descripcion }}</p>
+  </div>
+
+  <!-- 
+    Sección "Galería de Fotos"
+    Basado en el Wireframe (PDF Pág. 16)
+  -->
+  <div class="galeria-container" *ngIf="galeria.length > 0">
+    <h2>Galería de Fotos</h2>
+    <div class="galeria-grid">
+      
+      <!-- 
+        ¡AQUÍ ES DONDE USAMOS NgFor!
+        Esto "repetirá" este bloque por CADA foto en la variable 'galeria'.
+      -->
+      <div *ngFor="let foto of galeria" class="foto-card">
+        <img [src]="foto.urlImagen" [alt]="foto.descripcion">
+      </div>
+
+    </div>
+  </div>
+
 </div>
+>>>>>>> origin/abrhyl
