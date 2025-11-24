@@ -6,6 +6,7 @@ import { NegocioDetail } from './components/negocio-detail/negocio-detail';
 import { Booking } from './components/booking/booking';
 import { AuthGuard } from './guards/auth.guard';
 
+
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'login', component: Login },

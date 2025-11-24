@@ -79,7 +79,12 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              {
+                 "glob": "**/*",
+                 "input": "src/resources", 
+                "output": "/resources"    
+             }
             ],
             "styles": [
               "src/styles.css"
@@ -88,5 +93,10 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "8c2def44-ebdb-4de0-91e7-e713129fafd1"
   }
+ 
+
 }

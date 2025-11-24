@@ -1,0 +1,213 @@
+<div class="detail-container" *ngIf="negocio">
+  
+  <nav class="detail-nav">
+    <div class="nav-content">
+      <a routerLink="/home" class="btn-volver">
+        <span class="icon-arrow">‹</span> Ver otros negocios
+      </a>
+      <div class="brand-logo">TURNIX</div>
+      <div class="nav-spacer"></div> </div>
+  </nav>
+
+  <header class="hero-section" [style.backgroundImage]="'url(' + negocio.imagenUrl + ')'">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">{{ negocio.nombreNegocio }}</h1>
+      <div class="hero-rating">
+        <span class="star-yellow">★</span>
+        <span class="rating-num">{{ negocio.calificacionPromedio }}</span>
+        <span class="review-count">({{ negocio.numeroResenas }} reviews)</span>
+      </div>
+      <p class="hero-address">📍 {{ negocio.direccion }}</p>
+      <button class="btn-reservar-hero" (click)="abrirReserva()">Reservar Cita</button>
+    </div>
+  </header>
+
+  <main class="main-grid">
+    
+    <div class="left-column">
+      
+      <section class="info-section">
+        <h2 class="section-title">✂️ Acerca del Negocio / Servicios</h2>
+        <p class="section-subtitle">Expertos en su rubro. Una experiencia tradicional con toques modernos.</p>
+        
+        <div class="services-list">
+          <div class="service-row" *ngFor="let s of servicios">
+            <div class="service-info">
+              <span class="service-name">{{ s.nombreServicio }}</span>
+              <span class="service-time">⏱ {{ s.duracionEstimada }} min</span>
+            </div>
+            <div class="service-price">S/ {{ s.precio | number:'1.2-2' }}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-section">
+        <h2 class="section-title">📷 Galería del Negocio</h2>
+        <div class="gallery-grid">
+          <div class="gallery-card" *ngFor="let img of galeria">
+            <img [src]="img.urlImagen" [alt]="img.descripcion" class="gallery-img">
+            <div class="gallery-caption">{{ img.descripcion }}</div>
+          </div>
+        </div>
+        <p *ngIf="galeria.length === 0" class="empty-msg">No hay imágenes en la galería.</p>
+      </section>
+
+      <section class="info-section">
+        <h2 class="section-title">💬 Opiniones</h2>
+        <div class="reviews-list">
+          <div class="review-card" *ngFor="let r of resenas">
+            <div class="review-header">
+              <span class="reviewer-name">Usuario Turnix</span>
+              <div class="stars">
+                <span *ngFor="let star of generarEstrellas(r.calificacion)" [class.filled]="star === 1">★</span>
+              </div>
+            </div>
+            <p class="review-body">"{{ r.comentario }}"</p>
+            <span class="review-date">{{ r.fechaCreacion | date:'yyyy-MM-dd' }}</span>
+          </div>
+          <p *ngIf="resenas.length === 0" class="empty-msg">Aún no hay opiniones.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="right-column">
+      <div class="location-card">
+        <h3>Ubicación y horario</h3>
+        <div class="map-box">🗺️ Mapa</div>
+        
+        <div class="loc-item">
+          <strong>Dirección:</strong>
+          <p>{{ negocio.direccion }}</p>
+        </div>
+        
+        <div class="loc-item">
+          <strong>Teléfono:</strong>
+          <p>{{ negocio.telefonoNegocio }}</p>
+        </div>
+        
+        <div class="loc-item">
+          <strong>Horario:</strong>
+          <p>{{ negocio.horarioApertura }} - {{ negocio.horarioCierre }}</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="modal-overlay" *ngIf="modalAbierto">
+    <div class="modal-container">
+      <div class="modal-header">
+        <span class="modal-logo">TURNIX</span>
+        <div class="modal-steps">
+          <span [class.active]="pasoActual >= 1"></span>
+          <span [class.active]="pasoActual >= 2"></span>
+          <span [class.active]="pasoActual >= 3"></span>
+          <span [class.active]="pasoActual >= 4"></span>
+        </div>
+        <button class="btn-close" (click)="cerrarReserva()">✕</button>
+      </div>
+
+      <div class="modal-content">
+        <div *ngIf="pasoActual === 1">
+          <h3>✔ Selecciona tus Servicios</h3>
+          <p class="sub-text">Duración total estimada: {{ servicioSeleccionado?.duracionEstimada || 0 }} min</p>
+          <div class="modal-services">
+            <div class="modal-service-item" 
+                 *ngFor="let s of servicios" 
+                 [class.selected]="servicioSeleccionado === s"
+                 (click)="seleccionarServicio(s)">
+              <div class="check-circle"></div>
+              <div class="ms-info">
+                <span class="ms-name">{{ s.nombreServicio }}</span>
+                <span class="ms-time">{{ s.duracionEstimada }} min</span>
+              </div>
+              <span class="ms-price">S/ {{ s.precio }}</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span class="total-label">Total Estimado: S/ {{ totalEstimado }}</span>
+            <button class="btn-next" [disabled]="!servicioSeleccionado" (click)="siguientePaso()">Siguiente →</button>
+          </div>
+        </div>
+
+        <div *ngIf="pasoActual === 2">
+          <h3>👤 Elige un Profesional</h3>
+          <div class="profesional-grid">
+            <div class="prof-card" 
+                 *ngFor="let p of profesionales" 
+                 [class.selected]="profesionalSeleccionado === p"
+                 (click)="seleccionarProfesional(p)">
+              <div class="prof-avatar">{{ p.nombre.charAt(0) }}{{ p.apellido.charAt(0) }}</div>
+              <span class="prof-name">{{ p.nombre }}</span>
+              <span class="prof-role">{{ p.especialidad }}</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-back" (click)="pasoAnterior()">‹ Atrás</button>
+          </div>
+        </div>
+
+        <div *ngIf="pasoActual === 3">
+          <h3>📅 Fecha y Hora</h3>
+          <div class="date-picker-container">
+            <label>Seleccionar Día</label>
+            <input type="date" [(ngModel)]="fechaSeleccionada" class="date-input">
+          </div>
+          
+          <div class="time-slots" *ngIf="fechaSeleccionada">
+            <p>Horarios Disponibles ({{ servicioSeleccionado?.duracionEstimada }} min)</p>
+            <div class="slots-grid">
+              <button *ngFor="let h of horariosDisponibles" 
+                      class="slot-btn" 
+                      [class.selected]="horaSeleccionada === h"
+                      (click)="seleccionarHora(h)">
+                {{ h }}
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-back" (click)="pasoAnterior()">‹ Atrás</button>
+            <button class="btn-next" [disabled]="!fechaSeleccionada || !horaSeleccionada" (click)="siguientePaso()">Revisar Cita</button>
+          </div>
+        </div>
+
+        <div *ngIf="pasoActual === 4">
+          <h3>📝 Confirma tu Reserva</h3>
+          <p class="sub-text">Casi listo, revisa los detalles.</p>
+          
+          <div class="summary-box">
+            <div class="sum-prof">
+              <div class="prof-avatar-sm">{{ profesionalSeleccionado?.nombre?.charAt(0) }}</div>
+              <div class="prof-details">
+                <strong>{{ profesionalSeleccionado?.nombre }} {{ profesionalSeleccionado?.apellido }}</strong>
+                <span>{{ profesionalSeleccionado?.especialidad }}</span>
+              </div>
+            </div>
+            
+            <div class="sum-date">
+              📅 {{ fechaSeleccionada | date:'fullDate' }} <br> ⏰ {{ horaSeleccionada }}
+            </div>
+
+            <div class="sum-row">
+              <span>{{ servicioSeleccionado?.nombreServicio }}</span>
+              <strong>S/ {{ servicioSeleccionado?.precio }}</strong>
+            </div>
+            
+            <div class="sum-total">
+              <span>Total a Pagar</span>
+              <span>S/ {{ totalEstimado }}</span>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn-cancel" (click)="cerrarReserva()">Cancelar</button>
+            <button class="btn-confirm" (click)="confirmarCita()">Confirmar Cita</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

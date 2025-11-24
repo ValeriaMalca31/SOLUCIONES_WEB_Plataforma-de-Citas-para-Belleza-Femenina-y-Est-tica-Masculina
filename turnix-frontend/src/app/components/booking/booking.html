@@ -1,0 +1,206 @@
+<div class="booking-page">
+  
+  <!-- Navbar (Igual que en Home para consistencia) -->
+  <div class="navbar">
+    <div class="brand">TURNIX</div>
+    <div class="nav-links">
+      <a routerLink="/">Inicio</a>
+      <a routerLink="/mis-citas">Mis Citas</a>
+    </div>
+  </div>
+
+  <div class="booking-container">
+
+    <!-- ============================================= -->
+    <!-- == PASO 1: SELECCIONAR SERVICIO (GRID) == -->
+    <!-- ============================================= -->
+    <div *ngIf="currentStep === 1">
+      
+      <h1 class="page-title">Servicios</h1>
+      <p class="page-subtitle">Selecciona el servicio que deseas reservar.</p>
+
+      <!-- Grid de Servicios -->
+      <div class="servicios-grid">
+        
+        <div *ngFor="let s of servicios" class="servicio-card" (click)="seleccionarServicio(s)">
+          <!-- Imagen del Servicio (Placeholder oscuro si no tiene) -->
+          <div class="card-image">
+            <!-- Usamos un placeholder genérico oscuro con el nombre del servicio -->
+            <img [src]="'https://placehold.co/600x400/1a1a1a/FFF?text=' + s.nombreServicio" [alt]="s.nombreServicio">
+            <div class="card-overlay"></div>
+          </div>
+          
+          <div class="card-content">
+            <h3>{{ s.nombreServicio }}</h3>
+            <div class="card-meta">
+              <span class="duracion">⏱ {{ s.duracionEstimada }} min</span>
+              <span class="precio">S/ {{ s.precio.toFixed(2) }}</span>
+            </div>
+            <button class="card-btn">Seleccionar</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mensaje si no hay servicios -->
+      <div *ngIf="servicios.length === 0" class="no-servicios">
+        <p>No hay servicios disponibles para este negocio por el momento.</p>
+        <button class="reset-btn" (click)="volverAlInicio()">Volver al Inicio</button>
+      </div>
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- == PASO 2: AGENDAR CITA (DARK MODE) == -->
+    <!-- ============================================= -->
+    <div *ngIf="currentStep === 2" class="paso-container">
+      
+      <button (click)="volverPaso1()" class="back-link">&lt; Volver a Servicios</button>
+      
+      <h1 class="page-title">Agendar Cita</h1>
+      
+      <div class="agendar-layout">
+        
+        <!-- COLUMNA IZQUIERDA: FORMULARIO -->
+        <div class="agendar-form">
+          
+          <!-- 1. Seleccionar Profesional (Tarjetas con Avatar) -->
+          <div class="form-section">
+            <label class="section-label">Selecciona un profesional</label>
+            <div class="profesionales-grid">
+              <div 
+                *ngFor="let p of profesionales" 
+                class="profesional-card" 
+                [class.selected]="profesionalSeleccionado === p.id"
+                (click)="seleccionarProfesional(p.id)">
+                <div class="avatar">
+                  <!-- Avatar generado automáticamente con las iniciales -->
+                  <img [src]="'https://ui-avatars.com/api/?name=' + p.nombre + '+' + p.apellido + '&background=random&color=fff&size=128'" alt="Avatar">
+                </div>
+                <div class="profesional-info">
+                  <div class="name">{{ p.nombre }}</div>
+                  <div class="role">{{ p.especialidad }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Seleccionar Fecha -->
+          <div class="form-section" *ngIf="profesionalSeleccionado">
+            <label class="section-label">Selecciona fecha</label>
+            <input 
+              type="date" 
+              class="form-control-dark"
+              [(ngModel)]="fechaSeleccionada"
+              (change)="buscarDisponibilidad()">
+          </div>
+
+          <!-- 3. Horarios -->
+          <div class="form-section" *ngIf="fechaSeleccionada">
+            <label class="section-label">Horarios disponibles</label>
+            
+            <!-- Mensaje de Carga -->
+            <p *ngIf="cargandoHorarios" class="loading-text">Buscando disponibilidad...</p>
+
+            <div class="horarios-grid" *ngIf="!cargandoHorarios">
+              <button 
+                *ngFor="let hora of horariosDisponibles"
+                class="hora-btn"
+                [class.selected]="hora === horaSeleccionada"
+                (click)="seleccionarHora(hora)">
+                {{ hora }}
+              </button>
+            </div>
+            
+            <p *ngIf="horariosDisponibles.length === 0 && !cargandoHorarios" class="text-muted">
+              No hay horarios disponibles para esta fecha. Intenta con otra.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA: RESUMEN FLOTANTE -->
+        <div class="resumen-panel">
+          <h2>Resumen</h2>
+          
+          <div class="resumen-content">
+            <div class="resumen-item">
+              <span>Servicio</span>
+              <strong>{{ servicioSeleccionado.nombreServicio }}</strong>
+            </div>
+            
+            <div class="resumen-item" *ngIf="profesionalSeleccionadoObj">
+              <span>Profesional</span>
+              <strong>{{ profesionalSeleccionadoObj.nombre }} {{ profesionalSeleccionadoObj.apellido }}</strong>
+            </div>
+
+            <div class="resumen-item" *ngIf="fechaSeleccionada">
+              <span>Fecha</span>
+              <strong>{{ fechaSeleccionada }}</strong>
+            </div>
+
+            <div class="resumen-item" *ngIf="horaSeleccionada">
+              <span>Hora</span>
+              <strong>{{ horaSeleccionada }}</strong>
+            </div>
+          </div>
+
+          <div class="resumen-total">
+            <span>Total a pagar</span>
+            <strong class="total-price">S/ {{ servicioSeleccionado.precio.toFixed(2) }}</strong>
+          </div>
+
+          <button 
+            class="confirmar-btn" 
+            (click)="continuarReserva()"
+            [disabled]="!horaSeleccionada">
+            CONFIRMAR CITA
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Pasos 3 y 4 (Confirmar y Éxito) se mantienen, el CSS global los estilizará -->
+    <div *ngIf="currentStep === 3" class="paso-container">
+        <div class="paso-header">
+            <button (click)="currentStep = 2" class="back-link">&lt; Volver a Agendar</button>
+            <h1>Confirmar Datos</h1>
+        </div>
+        <div class="form-contacto dark-form">
+             <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" class="form-control-dark" [(ngModel)]="clienteNombre" placeholder="Ej. Juan Perez">
+             </div>
+             <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" class="form-control-dark" [(ngModel)]="clienteEmail" placeholder="Ej. juan@email.com">
+             </div>
+             <div class="form-group">
+                <label>Teléfono</label>
+                <input type="tel" class="form-control-dark" [(ngModel)]="clienteTelefono" placeholder="Ej. 999 888 777">
+             </div>
+             <div class="form-group">
+                <label>Notas Adicionales (Opcional)</label>
+                <textarea class="form-control-dark" rows="3" [(ngModel)]="clienteNotas" placeholder="Alguna indicación especial..."></textarea>
+             </div>
+             
+             <div *ngIf="errorAlGuardar" class="error-message">{{ errorAlGuardar }}</div>
+
+             <button class="confirmar-btn" (click)="finalizarReserva()" [disabled]="estaGuardando">
+                {{ estaGuardando ? 'Confirmando...' : 'Finalizar Reserva' }}
+             </button>
+        </div>
+    </div>
+
+    <div *ngIf="currentStep === 4" class="paso-container success-container">
+        <div class="exito-box">
+            <h2>¡Reserva Exitosa! 🎉</h2>
+            <p>Tu cita ha sido agendada correctamente.</p>
+            <p class="success-details">Te esperamos el {{ fechaSeleccionada }} a las {{ horaSeleccionada }}</p>
+            <button class="confirmar-btn" (click)="volverAlInicio()">Volver al Inicio</button>
+        </div>
+    </div>
+
+  </div>
+</div>
