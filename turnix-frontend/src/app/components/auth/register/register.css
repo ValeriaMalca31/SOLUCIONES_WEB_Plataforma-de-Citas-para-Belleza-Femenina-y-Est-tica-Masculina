@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -7,7 +7,7 @@
   padding: 2rem;
 }
 
-.login-card {
+.register-card {
   background: white;
   padding: 2.5rem;
   border-radius: 15px;
@@ -16,14 +16,14 @@
   max-width: 400px;
 }
 
-.login-card h2 {
+.register-card h2 {
   text-align: center;
   margin-bottom: 2rem;
   color: #1a1a1a;
   font-size: 1.8rem;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -47,7 +47,7 @@
   border-color: #ff6b35;
 }
 
-.login-btn {
+.register-btn {
   background: #1a1a1a;
   color: white;
   border: none;
@@ -59,11 +59,11 @@
   margin-top: 1rem;
 }
 
-.login-btn:hover:not(:disabled) {
+.register-btn:hover:not(:disabled) {
   background: #ff6b35;
 }
 
-.login-btn:disabled {
+.register-btn:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
@@ -77,28 +77,28 @@
   font-size: 0.9rem;
 }
 
-.register-link {
+.login-link {
   text-align: center;
   margin-top: 1.5rem;
   color: #666;
 }
 
-.register-link a {
+.login-link a {
   color: #ff6b35;
   cursor: pointer;
   text-decoration: underline;
 }
 
-.register-link a:hover {
+.login-link a:hover {
   color: #e55a2b;
 }
 
 @media (max-width: 480px) {
-  .login-container {
+  .register-container {
     padding: 1rem;
   }
   
-  .login-card {
+  .register-card {
     padding: 2rem 1.5rem;
   }
 }
