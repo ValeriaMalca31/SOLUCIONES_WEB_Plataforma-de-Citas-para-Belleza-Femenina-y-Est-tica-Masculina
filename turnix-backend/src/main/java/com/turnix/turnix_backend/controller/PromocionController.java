@@ -10,29 +10,29 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/promociones")
+@RequestMapping("/api")
 public class PromocionController {
 
     @Autowired
     private PromocionService promocionService;
 
-    @GetMapping
-    public List<Promocion> getAllPromociones() {
-        return promocionService.getAllPromociones();
+    @GetMapping("/negocios/{negocioId}/promociones")
+    public List<Promocion> getPromocionesByNegocioId(@PathVariable Integer negocioId) {
+        return promocionService.getPromocionesByNegocioId(negocioId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/promociones/{id}")
     public ResponseEntity<Promocion> getPromocionById(@PathVariable Long id) {
         Optional<Promocion> promocion = promocionService.getPromocionById(id);
         return promocion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/promociones")
     public Promocion createPromocion(@RequestBody Promocion promocion) {
         return promocionService.createPromocion(promocion);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/promociones/{id}")
     public ResponseEntity<Void> deletePromocion(@PathVariable Long id) {
         promocionService.deletePromocion(id);
         return ResponseEntity.noContent().build();

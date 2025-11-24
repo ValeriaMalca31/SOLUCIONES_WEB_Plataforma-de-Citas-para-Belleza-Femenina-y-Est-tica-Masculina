@@ -32,4 +32,9 @@ export class ApiService {
   getServiciosByNegocio(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/negocios/${id}/servicios`);
   }
+
+  // Métodos para promociones
+  getPromociones(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/promociones`);
+  }
 }

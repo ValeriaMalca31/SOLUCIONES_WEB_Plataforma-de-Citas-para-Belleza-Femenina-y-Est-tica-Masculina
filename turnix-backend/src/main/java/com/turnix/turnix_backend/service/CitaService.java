@@ -29,4 +29,8 @@ public class CitaService {
     public void deleteCita(Long id) {
         citaRepository.deleteById(id);
     }
+
+    public List<Cita> getCitasByNegocioId(Integer negocioId) {
+        return citaRepository.findByNegocio_Id(negocioId);
+    }
 }

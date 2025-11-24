@@ -29,4 +29,8 @@ public class PromocionService {
     public void deletePromocion(Long id) {
         promocionRepository.deleteById(id);
     }
+
+    public List<Promocion> getPromocionesByNegocioId(Integer negocioId) {
+        return promocionRepository.findByNegocio_Id(negocioId);
+    }
 }

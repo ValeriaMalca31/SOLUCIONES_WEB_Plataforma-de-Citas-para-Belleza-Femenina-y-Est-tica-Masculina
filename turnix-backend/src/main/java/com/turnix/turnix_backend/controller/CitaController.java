@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.time.LocalDateTime;
 
@@ -23,11 +22,6 @@ public class CitaController {
 
     @Autowired
     private CitaService citaService;
-
-    @GetMapping
-    public List<Cita> getAllCitas() {
-        return citaService.getAllCitas();
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cita> getCitaById(@PathVariable Long id) {

@@ -1,5 +1,6 @@
 package com.turnix.turnix_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Servicio {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Negocio", nullable = false)
+    @JsonIgnore
     private Negocio negocio;
 
     @Column(name = "Nombre_Servicio", nullable = false, length = 150)

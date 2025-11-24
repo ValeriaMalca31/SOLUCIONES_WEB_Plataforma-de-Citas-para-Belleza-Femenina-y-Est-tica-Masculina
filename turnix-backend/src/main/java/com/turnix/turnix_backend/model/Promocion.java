@@ -1,5 +1,6 @@
 package com.turnix.turnix_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Promocion {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Negocio", nullable = false)
+    @JsonIgnore // Ignorar la serialización de esta relación lazy-loaded
     private Negocio negocio;
 
     @Column(name = "Titulo", nullable = false, length = 150)
