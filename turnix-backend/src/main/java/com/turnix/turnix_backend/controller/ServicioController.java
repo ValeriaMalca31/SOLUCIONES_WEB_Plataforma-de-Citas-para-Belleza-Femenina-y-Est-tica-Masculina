@@ -14,24 +14,29 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/servicios")
+@RequestMapping("/api") // Changed to /api to accommodate /api/negocios/{negocioId}/servicios
 public class ServicioController {
 
     @Autowired
     private ServicioService servicioService;
 
-    @GetMapping
+    @GetMapping("/servicios")
     public List<Servicio> getAllServicios() {
         return servicioService.getAllServicios();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/servicios/{id}")
     public ResponseEntity<Servicio> getServicioById(@PathVariable Long id) {
         Optional<Servicio> servicio = servicioService.getServicioById(id);
         return servicio.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @GetMapping("/negocios/{negocioId}/servicios")
+    public List<Servicio> getServiciosByNegocioId(@PathVariable Integer negocioId) {
+        return servicioService.getServiciosByNegocioId(negocioId);
+    }
+
+    @PostMapping("/servicios")
     public ResponseEntity<ServicioResponseDTO> createServicio(@Valid @RequestBody ServicioRequestDTO dto) {
         Servicio servicio = new Servicio();
     Negocio negocio = new Negocio();
@@ -54,7 +59,7 @@ public class ServicioController {
         return ResponseEntity.status(201).body(resp);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/servicios/{id}")
     public ResponseEntity<Void> deleteServicio(@PathVariable Long id) {
         servicioService.deleteServicio(id);
         return ResponseEntity.noContent().build();

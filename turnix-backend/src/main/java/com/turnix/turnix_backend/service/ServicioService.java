@@ -22,6 +22,10 @@ public class ServicioService {
         return servicioRepository.findById(id);
     }
 
+    public List<Servicio> getServiciosByNegocioId(Integer negocioId) {
+        return servicioRepository.findByNegocio_Id(negocioId);
+    }
+
     public Servicio createServicio(Servicio servicio) {
         return servicioRepository.save(servicio);
     }

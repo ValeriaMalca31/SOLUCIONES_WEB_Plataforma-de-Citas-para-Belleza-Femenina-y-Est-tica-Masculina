@@ -51,4 +51,9 @@ export class ApiService {
   getHorariosDisponibles(negocioId: any, fecha: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/negocios/${negocioId}/horarios?fecha=${fecha}`, { headers: this.getHeaders() });
   }
+
+  // Métodos para promociones
+  getPromociones(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/promociones`);
+  }
 }
